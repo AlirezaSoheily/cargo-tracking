@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>خاکبرداری</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/persianDatepicker-default.css' %}"/>
+    <script type="text/javascript" src="{% static 'js/jquery-1.10.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/persianDatepicker.min.js' %}"></script>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="{% url 'main' %}">خانه</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'add new car' %}">اضافه کردن ماشین</a></li>
+            <li><a href="{% url 'cars list' %}">لیست ماشین ها</a></li>
+            <li><a href="{% url 'add service' %}">ثبت سرویس</a></li>
+            <li><a href="{% url 'service list' %}">لیست سرویس ها</a></li>
+            <li><a href="{% url 'daily report' %}">گزارش روزانه</a></li>
+            <li><a href="{% url 'monthly report' %}">گزارش ماهانه</a></li>
+            <li><a href="{% url 'car report' %}">گزارش ماشین</a></li>
+            <li><a href="{% url 'contractor report' %}">گزارش پیمانکار</a></li>
+            <li><a href="{% url 'logout' %}">خروج</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% if user.is_authenticated %}
+    <div class="content">
+    {% block body %}
+    {% endblock %}
+{% else %}
+    <div>
+        <h1 style="margin-right: 38%">لطفا رمز عبور را وارد کنید : </h1>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <label for="password">رمز عبور</label>
+            <input type="password" name="password" id="password">
+            <input type="submit" value="ورود">
+        </form>
+    </div>
+{% endif %}
+
+</div>
+</body>
+</html>

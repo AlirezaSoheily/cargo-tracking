@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% block head %}
+    <title>لیست ماشین ها</title>
+{% endblock %}
+
+{% block body %}
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px;">ردیف</th>
+            <th style="border: 1px solid black; padding: 8px;">پلاک</th>
+            <th style="border: 1px solid black; padding: 8px;">پیمانکار</th>
+            <th style="border: 1px solid black; padding: 8px;">نوع</th>
+            <th style="border: 1px solid black; padding: 8px;">تغییر/حذف</th>
+        </tr>
+        {% for car in cars %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px;"></td>
+                <td style="border: 1px solid black; padding: 8px;">{{ car.plaque }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ car.Contractor }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ car.car_type }}</td>
+                <td style="border: 1px solid black; padding: 8px;"><a href="{% url 'update car' car.id %}">تغییر
+                    اطلاعات</a>
+                    | <a href="{% url 'delete car' car.id %}">حذف</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

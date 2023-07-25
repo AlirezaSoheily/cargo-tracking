@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>حذف</title>
+</head>
+<body>
+<div class="main">
+    <form method="POST">
+        {% csrf_token %}
+        مطمینی می خوای این سرویس رو حذف کنی؟
+        <input type="submit" value="بله" />
+        <a href="{% url 'service list' %}">خیر </a>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% block head %}
+    <title>گزارش سرویس ها</title>
+    <style>
+        table {
+            counter-reset: rowNumber;
+        }
+
+        table tr {
+            counter-increment: rowNumber;
+        }
+
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+            min-width: 1em;
+            margin-right: 0.5em;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px;">ردیف</th>
+            <th style="border: 1px solid black; padding: 8px;">تاریخ</th>
+            <th style="border: 1px solid black; padding: 8px;">پلاک</th>
+            <th style="border: 1px solid black; padding: 8px;">بارگیری</th>
+            <th style="border: 1px solid black; padding: 8px;">تخلیه</th>
+            <th style="border: 1px solid black; padding: 8px;">نوع دستگاه</th>
+            <th style="border: 1px solid black; padding: 8px;">تعداد سرویس</th>
+            <th style="border: 1px solid black; padding: 8px;">توضیحات</th>
+            <th style="border: 1px solid black; padding: 8px;">تغییر/حذف</th>
+        </tr>
+        {% for service in services %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px;"></td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.date }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.car.plaque }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.loading}}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.discharge}}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.car.car_type}}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.amount}}</td>
+                <td style="border: 1px solid black; padding: 8px;">{% if service.description %}{{ service.description}}{% endif %}</td>
+                <td style="border: 1px solid black; padding: 8px;"><a href="{% url 'update service' service.id %}">تغییر
+                    اطلاعات</a>
+                    | <a href="{% url 'delete service' service.id %}">حذف</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

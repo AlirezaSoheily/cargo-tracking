@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% block body %}
+    <h1 style="margin-right: 38%">تاریخ را وارد کنید : </h1>
+    <form action="" method="post">
+    {% csrf_token %}
+        <label for="date1">از :</label>
+        <input type="text" name="date1" id="date1">
+        <label for="date2">تا :</label>
+        <input type="text" name="date2" id="date2">
+        <input type="submit" value="دریافت گزارش">
+    </form>
+<script type="text/javascript">
+    $(function() {
+        $("#date1 , #date2").persianDatepicker();
+    });
+</script>
+{% endblock %}

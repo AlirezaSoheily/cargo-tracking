@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block body %}
+    <h1>گزارش سرویس روزانه {{ car.car_type }} {{ car.plaque }} پیمانکار آقای {{ car.Contractor }} از تاریخ {{ date1 }} تا {{ date2 }}</h1>
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px;">ردیف</th>
+            <th style="border: 1px solid black; padding: 8px;">تاریخ</th>
+            <th style="border: 1px solid black; padding: 8px;">بارگیری</th>
+            <th style="border: 1px solid black; padding: 8px;">تخلیه</th>
+            <th style="border: 1px solid black; padding: 8px;">تعداد سرویس</th>
+        </tr>
+        {% for service in services %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px;"></td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.date }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.loading }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.discharge }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ service.amount }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+
+    <table style="width: 25%; border-collapse: collapse;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px;">مجموع سرویس ها</th>
+            <th style="border: 1px solid black; padding: 8px;">{{ total_services }}</th>
+        </tr>
+    </table>
+    <br>
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px;">امضا اداری</th>
+            <th style="border: 1px solid black; padding: 8px;">امضا ریاست کارگاه</th>
+        </tr>
+    </table>
+
+{% endblock %}
