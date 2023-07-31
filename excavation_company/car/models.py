@@ -3,7 +3,7 @@ from django_jalali.db import models as jmodels
 
 
 class Car(models.Model):
-    plaque = models.CharField(max_length=6, db_column='پلاک')
+    plaque = models.CharField(max_length=6, db_column='پلاک', unique=True)
     Contractor = models.CharField(max_length=100, db_column='پیمانکار')
     car_type = models.CharField(max_length=10, choices=[('تک', 'تک'), ('ده چرخ', 'ده چرخ')], db_column='نوع')
 
