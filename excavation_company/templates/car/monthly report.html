@@ -1,24 +1,20 @@
 {% extends 'core/base.html' %}
 {% block body %}
-    <h1>گزارش روزانه {{ date }}</h1>
+    <h1>گزارش ماهانه از  {{ date1 }} تا  {{ date2 }}</h1>
     <table style="width: 100%; border-collapse: collapse;">
         <tr>
             <th style="border: 1px solid black; padding: 8px;">ردیف</th>
-            <th style="border: 1px solid black; padding: 8px;">پلاک</th>
-            <th style="border: 1px solid black; padding: 8px;">بارگیری</th>
-            <th style="border: 1px solid black; padding: 8px;">تخلیه</th>
-            <th style="border: 1px solid black; padding: 8px;">نوع دستگاه</th>
-            <th style="border: 1px solid black; padding: 8px;">تعداد سرویس</th>
+            <th style="border: 1px solid black; padding: 8px;">تاریخ</th>
+            <th style="border: 1px solid black; padding: 8px;">تک</th>
+            <th style="border: 1px solid black; padding: 8px;">ده چرخ</th>
             <th style="border: 1px solid black; padding: 8px;">توضیحات</th>
         </tr>
-        {% for service in services %}
+        {% for day in days %}
             <tr>
                 <td style="border: 1px solid black; padding: 8px;"></td>
-                <td style="border: 1px solid black; padding: 8px;">{{ service.car.plaque }}</td>
-                <td style="border: 1px solid black; padding: 8px;">{{ service.loading }}</td>
-                <td style="border: 1px solid black; padding: 8px;">{{ service.discharge }}</td>
-                <td style="border: 1px solid black; padding: 8px;">{{ service.car.car_type }}</td>
-                <td style="border: 1px solid black; padding: 8px;">{{ service.amount }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ day.0 }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ day.1 }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ day.2 }}</td>
                 <td style="border: 1px solid black; padding: 8px;">
                     {% if service.description %}{{ service.description }}{% endif %}</td>
             </tr>

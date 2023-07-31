@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -8,6 +10,9 @@ from django.urls import reverse_lazy
 from django.shortcuts import (get_object_or_404,
                               render,
                               HttpResponseRedirect)
+
+import jdatetime
+from core.utils import jalali_to_georg, georg_to_jalali
 
 
 class Index(View):
@@ -129,22 +134,57 @@ class MonthlyReport(View):
     def post(self, request):
         context = {'date1': request.POST.get('date1'), 'date2': request.POST.get('date2')}
         if request.POST.get('date1') and request.POST.get('date2'):
-            date1 = request.POST.get('date1').replace('/', '-')
-            date2 = request.POST.get('date2').replace('/', '-')
-            services = CarService.objects.filter(date__gte=date1, date__lte=date2)
+            georg_date1 = jalali_to_georg(context['date1'])
+            georg_date2 = jalali_to_georg(context['date2'])
             tak_total = 0
             dah_charkh_total = 0
-            for service in services:
-                if service.car.car_type == 'تک':
-                    tak_total += service.amount
-                elif service.car.car_type == 'ده چرخ':
-                    dah_charkh_total += service.amount
-            context['services'] = services
+            context['days'] = []
+            while georg_date1 <= georg_date2:
+                jalali_date = georg_to_jalali(georg_date1)
+                services = CarService.objects.filter(date=jalali_date)
+                tak_daily = 0
+                dah_charkh_daily = 0
+                for service in services:
+                    if service.car.car_type == 'تک':
+                        tak_daily += service.amount
+                        tak_total += service.amount
+                    elif service.car.car_type == 'ده چرخ':
+                        dah_charkh_daily += service.amount
+                        dah_charkh_total += service.amount
+                context['days'].append([jalali_date, tak_daily, dah_charkh_daily])
+                georg_date1 += timedelta(days=1)
             context['tak_total'] = tak_total
             context['dah_charkh_total'] = dah_charkh_total
         else:
-            return HttpResponse('لطفا تاریخ را به درستی وارد کنید!')
+            return HttpResponse('لطفا هر دو تاریخ را به درستی وارد کنید!')
         return render(request, 'car/monthly report.html', context)
+
+
+
+
+# class MonthlyReport(View):
+#     def get(self, request):
+#         return render(request, 'car/monthly report form.html')
+#
+#     def post(self, request):
+#         context = {'date1': request.POST.get('date1'), 'date2': request.POST.get('date2')}
+#         if request.POST.get('date1') and request.POST.get('date2'):
+#             date1 = request.POST.get('date1').replace('/', '-')
+#             date2 = request.POST.get('date2').replace('/', '-')
+#             services = CarService.objects.filter(date__gte=date1, date__lte=date2)
+#             tak_total = 0
+#             dah_charkh_total = 0
+#             for service in services:
+#                 if service.car.car_type == 'تک':
+#                     tak_total += service.amount
+#                 elif service.car.car_type == 'ده چرخ':
+#                     dah_charkh_total += service.amount
+#             context['services'] = services
+#             context['tak_total'] = tak_total
+#             context['dah_charkh_total'] = dah_charkh_total
+#         else:
+#             return HttpResponse('لطفا تاریخ را به درستی وارد کنید!')
+#         return render(request, 'car/monthly report.html', context)
 
 
 class CarReport(View):
